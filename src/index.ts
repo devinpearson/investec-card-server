@@ -23,12 +23,12 @@ app.post("/simulate", async (req: Request, res: Response) => {
     const body = req.body
     // console.log(decodeURI(body.code))
     const code = decodeURI(body.code)
-    const currencyCode = body.currencyCode ?? 'zar'
-    const centsAmount = body.centsAmount ?? 10000
-    const merchantCode = body.merchantCode ?? '0000'
-    const merchantName = body.merchantName ?? 'The Backery'
-    const merchantCity = body.merchantCity ?? 'Cape Town'
-    const merchantCountry = body.merchantCountry ?? 'ZA'
+    const currencyCode = body.transaction.currencyCode ?? 'zar'
+    const centsAmount = body.transaction.centsAmount ?? 10000
+    const merchantCode = body.transaction.merchantCode ?? '0000'
+    const merchantName = body.transaction.merchantName ?? 'The Backery'
+    const merchantCity = body.transaction.merchantCity ?? 'Cape Town'
+    const merchantCountry = body.transaction.merchantCountry ?? 'ZA'
     const transaction = createTransaction(currencyCode, centsAmount, merchantCode, merchantName, merchantCity, merchantCountry);
     const executionItems = await run(transaction, code, "{}");
     // console.log(executionItems)
