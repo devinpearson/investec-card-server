@@ -31,13 +31,6 @@ app.post("/simulate", async (req: Request, res: Response) => {
     const merchantCountry = body.transaction.merchantCountry ?? 'ZA'
     const transaction = createTransaction(currencyCode, centsAmount, merchantCode, merchantName, merchantCity, merchantCountry);
     const executionItems = await run(transaction, code, "{}");
-    // console.log(executionItems)
-    // executionItems.forEach((item: ExecutionItem) => {
-    //     console.log('\n💻 ', item.type);
-    //     item.logs.forEach((log) => {
-    //     console.log('\n', log.level, log.content);
-    //     });
-    // });
 
     res.json(executionItems);
   });
