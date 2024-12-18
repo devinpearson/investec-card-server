@@ -2,15 +2,16 @@ import express, { Express, Request, Response } from "express";
 import cors from 'cors'
 import dotenv from "dotenv";
 import bodyParser from 'body-parser'
-import { run, createTransaction, ExecutionItem } from 'programmable-card-code-emulator'
+import morgan from 'morgan'
+import { run, createTransaction } from 'programmable-card-code-emulator'
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3010;
 
 app.use(cors())
-
+app.use(morgan('combined'))
 // Configuring body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

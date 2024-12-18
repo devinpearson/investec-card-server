@@ -4,9 +4,14 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "dev": "npm run dev:tsc & npm run dev:node",
+    "dev:tsc": "tsc --watch --preserveWatchOutput",
+    "dev:node": "node --enable-source-maps --watch dist/src/index.js",
+    "test": "vitest",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "clean": "rimraf dist/",
+    "build": "npm run clean && tsc"
   },
   "author": "",
   "license": "ISC",
@@ -14,15 +19,15 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
+    "morgan": "^1.10.0",
     "programmable-card-code-emulator": "^1.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.16",
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.0.3",
-    "ts-node": "^10.9.2",
+    "@types/morgan": "^1.9.9",
+    "rimraf": "^6.0.1",
     "typescript": "^5.3.3"
   }
 }
