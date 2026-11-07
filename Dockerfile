@@ -1,15 +1,19 @@
-# Base image of the docker container
-FROM node:20-alpine
-# Copy the contents of the repo into the /app folder inside the container
-COPY . /app
-# Update the current working directory to the /app folder
+# Build stage
+FROM node:22-alpine AS build
 WORKDIR /app
-# ENV variables
-ENV FORCE_COLOR=1
-# Add your CLI's installation steps here
-RUN npm install && npm link
-# ENTRYPOINT ["nodemon", "/usr/local/dist/index.js"]  
-CMD ["npm", "run", "dev"]
+COPY package*.json ./
+RUN npm ci
+COPY tsconfig.json ./
+COPY src ./src
+RUN npm run build
 
-# Exposing server port
+# Runtime stage
+FROM node:22-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
+COPY --from=build /app/dist ./dist
+USER node
 EXPOSE 3010
+CMD ["node", "dist/index.js"]
